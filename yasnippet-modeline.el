@@ -1,7 +1,6 @@
 ;;; yasnippet-modeline.el --- Update mode-line with potential YASnippet keywords
 
 ;; Copyright (C) 2013       Alex Bennée
-;; Copyright (C) 2010-2011  Riccardo Murri
 
 ;; Author: Alex Bennée <alex@bennee.com>
 ;; Maintainer: Alex Bennée <alex@bennee.com>
