@@ -78,7 +78,7 @@ after CHARS-SO-FAR which would still be valid completions"
 		(save-excursion
 		(backward-char)
 		(word-at-point))))
-	(fmt "None"))
+	(fmt (propertize "None" 'face 'italic)))
     (if (not (stringp word))
 	(setq fmt
 	      (propertize
@@ -97,8 +97,13 @@ after CHARS-SO-FAR which would still be valid completions"
 		 (propertize next-chars
 			     'face 'italic
 			     'help-echo (ajb-current-yasnippet-candiates word)))))))
-    "this works"))
+    fmt))
 
 ;; Tests
 ; (ajb-format-yasnippet-options "b")
-; => #("bcfmos" 0 1 (face bold) 1 6 (face italic help-echo ("bs" "bsnp" "bmp" "bfn" "botap" "bol" "bc")))
+; => #("bcfmos" 0 1 (face bold) 1 6 (face italic help-echo ("bs"
+; "bsnp" "bmp" "bfn" "botap" "bol" "bc")))
+
+
+
+
