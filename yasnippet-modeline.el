@@ -34,7 +34,12 @@
 
 ;;; Code:
 
-(defun ajb-current-yasnippet-candiates (chars-so-far)
+(defvar yasml-mode-line
+  "[None]"
+  "The current yasnippet completions")
+
+
+(defun yasml-current-candidates (chars-so-far)
   "Return the current keys and a list of next keys that would make
 yasnippet completions based on chars-so-far"
   (let ((keys (yas-active-keys))
@@ -46,11 +51,11 @@ yasnippet completions based on chars-so-far"
     candidates))
 
 ;; Tests (assume current default Elisp mode snippets)
-; (ajb-current-yasnippet-candiates "b")
+; (yasml-current-candidates "b")
 ; => ("bs" "bsnp" "bmp" "bfn" "botap" "bol" "bc")
 
 
-(defun ajb-next-yasnippet-keys (chars-so-far list-of-abbrevs)
+(defun yasml-next-keys (chars-so-far list-of-abbrevs)
   "Return a string containing all the characters that can be used
 after CHARS-SO-FAR which would still be valid completions"
   (let ((l (length chars-so-far))
@@ -63,12 +68,12 @@ after CHARS-SO-FAR which would still be valid completions"
     (concat (sort next-chars '<))))
 
 ;; Tests (assume current default Elisp mode snippets)
-; (ajb-next-yasnippet-keys "xy" '("xyzzy" "zyy" "xya" "xy" "x"))
+; (yasml-next-keys "xy" '("xyzzy" "zyy" "xya" "xy" "x"))
 ; => "ayz"
-; (ajb-next-yasnippet-keys "" (yas-active-keys))
+; (yasml-next-keys "" (yas-active-keys))
 ; => "abcdefgiklmnoprstuvwxy"
 
-(defun ajb-format-yasnippet-options (&optional prefix)
+(defun yasml-format-options (&optional prefix)
   "Return a format string showing the possible next keys that will
   still be yasnippet completions. If no PREFIX is passed then it will
   try to find it with word-at-point"
@@ -82,25 +87,25 @@ after CHARS-SO-FAR which would still be valid completions"
     (if (not (stringp word))
 	(setq fmt
 	      (propertize
-	       (ajb-next-yasnippet-keys
+	       (yasml-next-keys
 		""
 		(yas-active-keys))
 	       'face 'italic
 	       ))
-      (let ((next-chars (ajb-next-yasnippet-keys
+      (let ((next-chars (yasml-next-keys
 			 word
-			 (ajb-current-yasnippet-candiates word))))
+			 (yasml-current-candiates word))))
 	(when (> (length next-chars) 0)
 	  (setq fmt
 		(concat
 		 (propertize word 'face 'bold)
 		 (propertize next-chars
 			     'face 'italic
-			     'help-echo (ajb-current-yasnippet-candiates word)))))))
+			     'help-echo (yasml-current-candiates word)))))))
     fmt))
 
 ;; Tests
-; (ajb-format-yasnippet-options "b")
+; (yasml-format-options "b")
 ; => #("bcfmos" 0 1 (face bold) 1 6 (face italic help-echo ("bs"
 ; "bsnp" "bmp" "bfn" "botap" "bol" "bc")))
 
